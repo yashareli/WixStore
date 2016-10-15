@@ -70,7 +70,7 @@ public class StorePagingAdapter extends PagingBaseAdapter<ProductData> {
                 .into(viewHolder.mImageView);
         return convertView;
     }
-    private int getItemHeight() {
+    public int getItemHeight() {
         if(mRowHeight ==0){
             TypedValue value = new TypedValue();
             DisplayMetrics metrics = new DisplayMetrics();

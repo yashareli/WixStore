@@ -21,7 +21,7 @@ public class PagingListView extends ListView {
     private Pagingable pagingableListener;
     private LoadingView loadingView;
     private OnScrollListener onScrollListener;
-
+    private int mNumbersOfRowsInScreen;
     public PagingListView(Context context) {
         super(context);
         init();
@@ -83,6 +83,7 @@ public class PagingListView extends ListView {
         }
     }
     private void init() {
+        mNumbersOfRowsInScreen =0;
         isLoading = false;
         loadingView = new LoadingView(getContext());
         addFooterView(loadingView);
@@ -113,6 +114,12 @@ public class PagingListView extends ListView {
                 }
             }
         });
+    }
+    public int getNumbersOfRowsInScreen(int rowHeight) {
+        if(mNumbersOfRowsInScreen ==0 ){
+            mNumbersOfRowsInScreen = (int) Math.ceil(getHeight()/rowHeight);
+        }
+       return  mNumbersOfRowsInScreen;
     }
 
     @Override

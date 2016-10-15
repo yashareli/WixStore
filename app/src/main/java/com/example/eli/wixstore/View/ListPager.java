@@ -23,10 +23,12 @@ public class ListPager extends RelativeLayout implements IOnMoreDataReady, Pagin
     private StoreModelManager mStoreModelManager;
     private int mCurrPage;
     private String mFilter;
+    private int mRowHeight;
     public ListPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         mStoreModelManager = StoreModelManager.getInstance();
         mCurrPage =1;
+        mRowHeight =0;
     }
 
     @Override
@@ -48,7 +50,15 @@ public class ListPager extends RelativeLayout implements IOnMoreDataReady, Pagin
             productList = filterResults(productList);
         }
         mListView.onFinishLoading(true,productList);
-        if(productList.size() == 0 ) {
+        checkIfNeededMoreItems(productList.size());
+    }
+    private void checkIfNeededMoreItems(int numOfNewItems) {
+        if(mRowHeight == 0 && numOfNewItems > 0) {
+            mRowHeight = mAdapter.getItemHeight();
+        }
+        if(mRowHeight == 0) {
+            onLoadMoreItems();
+        }else if(mListView.getNumbersOfRowsInScreen(mRowHeight) > mListView.getCount()) {
             onLoadMoreItems();
         }
     }
